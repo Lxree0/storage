@@ -10,11 +10,13 @@
     --accent-green: #34D399;
     --accent-purple: #C084FC;
     --accent-orange: #FB923C;
+    --accent-red: #F87171;
     
     --glow-blue: rgba(56, 189, 248, 0.15);
     --glow-green: rgba(52, 211, 153, 0.15);
     --glow-purple: rgba(192, 132, 252, 0.15);
     --glow-orange: rgba(251, 146, 60, 0.15);
+    --glow-red: rgba(248, 113, 113, 0.15);
 }
 
 * {
@@ -141,6 +143,12 @@ header p {
 .c-orange { background: var(--glow-orange); }
 .c-orange svg { stroke: var(--accent-orange); }
 
+.c-red { background: var(--glow-red); }
+.c-red svg { stroke: var(--accent-red); }
+
+.c-blue2 { background: var(--glow-purple); }
+.c-blue2 svg { stroke: var(--accent-orange); }
+
 .folder-card h3 {
     font-size: 1.2rem;
     font-weight: 700;
@@ -230,15 +238,23 @@ footer {
     display: inline-flex;
     align-items: center;
     color: var(--accent-blue);
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
     text-decoration: none;
     font-weight: 600;
     font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
     margin-bottom: 1.5rem;
-    transition: opacity 0.2s;
+    transition: all 0.2s ease;
 }
 
 .back-btn:hover {
-    opacity: 0.8;
+    background: rgba(56, 189, 248, 0.2);
+    border-color: var(--accent-blue);
+    opacity: 1;
 }
 
 /* Stili Finestra Modale / Viewer */
