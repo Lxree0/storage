@@ -370,9 +370,10 @@ footer {
     width: 34px;
     height: 34px;
     border-radius: 8px;
-    color: var(--text-secondary);
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--card-border);
+    /* Colore dell'icona e bordo ben visibili */
+    color: var(--accent-blue);
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
     transition: all 0.2s ease;
 }
 
@@ -387,7 +388,8 @@ footer {
 }
 
 .open-tab-btn:hover {
-    color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    transform: scale(1.05);
 }
