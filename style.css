@@ -1,0 +1,315 @@
+:root {
+    --bg-main: #0B0F19;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-hover-border: rgba(56, 189, 248, 0.4);
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    
+    --accent-blue: #38BDF8;
+    --accent-green: #34D399;
+    --accent-purple: #C084FC;
+    --accent-orange: #FB923C;
+    
+    --glow-blue: rgba(56, 189, 248, 0.15);
+    --glow-green: rgba(52, 211, 153, 0.15);
+    --glow-purple: rgba(192, 132, 252, 0.15);
+    --glow-orange: rgba(251, 146, 60, 0.15);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(192, 132, 252, 0.08) 0px, transparent 50%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1.5rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    max-width: 600px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 20px;
+    color: var(--accent-blue);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.75rem;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.folder-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.folder-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--card-hover-border);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.folder-card:hover .icon-wrapper {
+    transform: scale(1.08);
+}
+
+.icon-wrapper svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Temi cromatici per card */
+.c-blue { background: var(--glow-blue); }
+.c-blue svg { stroke: var(--accent-blue); }
+
+.c-green { background: var(--glow-green); }
+.c-green svg { stroke: var(--accent-green); }
+
+.c-purple { background: var(--glow-purple); }
+.c-purple svg { stroke: var(--accent-purple); }
+
+.c-orange { background: var(--glow-orange); }
+.c-orange svg { stroke: var(--accent-orange); }
+
+.folder-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.folder-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.card-arrow {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.card-arrow svg {
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+}
+
+.folder-card:hover .card-arrow {
+    opacity: 1;
+}
+
+.folder-card:hover .card-arrow svg {
+    transform: translateX(4px);
+}
+
+footer {
+    margin-top: auto;
+    padding-top: 4rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* Stili per le pagine elenco file (PDF viewer interno) */
+.file-list {
+    list-style: none;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.file-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.file-item a {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.file-item:hover {
+    border-color: var(--accent-blue);
+    background: rgba(56, 189, 248, 0.05);
+    transform: translateX(4px);
+}
+
+.file-icon {
+    margin-right: 1rem;
+    color: var(--accent-orange);
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    transition: opacity 0.2s;
+}
+
+.back-btn:hover {
+    opacity: 0.8;
+}
+
+/* Stili Finestra Modale / Viewer */
+/* Stili Finestra Modale / Viewer ampliati */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(11, 15, 25, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: var(--bg-main);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    width: 95vw;            /* Occupa il 95% della larghezza schermo */
+    max-width: 1400px;      /* Limite massimo esteso */
+    height: 92vh;           /* Occupa il 92% dell'altezza schermo */
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 0.75rem;
+}
+
+.modal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.close-btn {
+    font-size: 1.8rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--text-primary);
+}
+
+#pdfViewerContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#pdfFrame {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 75vh;       /* Aumentata l'altezza del PDF */
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Web Storage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <span class="badge">Local Web Storage</span>
+        <h1>Archivio Matematica</h1>
+        <p>Seleziona una categoria per visualizzare e aprire le dispense direttamente online.</p>
+    </header>
+
+    <main class="container">
+
+        <!-- Card 1: Algebra e Funzioni -->
+        <div class="folder-card" onclick="openFolder('algebra')">
+            <div class="icon-wrapper c-blue">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Algebra e Funzioni</h3>
+            <p>4 File PDF disponibili</p>
+            <div class="card-arrow">
+                Mostra contenuti 
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+        </div>
+
+        <!-- Card 2: Geometria Analitica -->
+        <div class="folder-card" onclick="openFolder('geometria')">
+            <div class="icon-wrapper c-green">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Geometria Analitica</h3>
+            <p>2 File PDF disponibili</p>
+            <div class="card-arrow">
+                Mostra contenuti 
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+        </div>
+
+        <!-- Card 3: Goniometria e Trigonometria -->
+        <div class="folder-card" onclick="openFolder('goniometria')">
+            <div class="icon-wrapper c-purple">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Goniometria e Trig.</h3>
+            <p>4 File PDF disponibili</p>
+            <div class="card-arrow">
+                Mostra contenuti 
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+        </div>
+
+        <!-- Card 4: Analisi Matematica -->
+        <div class="folder-card" onclick="openFolder('analisi')">
+            <div class="icon-wrapper c-orange">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Analisi Matematica</h3>
+            <p>5 File PDF disponibili</p>
+            <div class="card-arrow">
+                Mostra contenuti 
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal per l'elenco file e Anteprima PDF -->
+    <div id="fileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Titolo Cartella</h2>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <ul id="fileList" class="file-list"></ul>
+                <div id="pdfViewerContainer" style="display: none; margin-top: 1rem;">
+                    <button onclick="closePdfViewer()" class="back-btn">&larr; Torna alla lista file</button>
+                    <iframe id="pdfFrame" src="" width="100%" height="600px" style="border: 1px solid var(--card-border); border-radius: 12px;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Self-Hosted Storage &bull; Nova Digital Dashboard</p>
+    </footer>
+
+    <script>
+        // Mappatura automatica dei file
+        const fileData = {
+            algebra: {
+                title: "Algebra e Funzioni Base",
+                folder: "./Mate/01_Algebra_e_Funzioni_Base/",
+                files: [
+                    "VR - Mat - 04_Numeri Reali e Radicali.pdf",
+                    "VR - Mat - 05_Radicali Operazioni.pdf",
+                    "VR - Mat - Funzioni 02 - Esponenziali.pdf",
+                    "VR - Mat - Funzioni 02 - Logaritmi.pdf"
+                ]
+            },
+            geometria: {
+                title: "Geometria Analitica",
+                folder: "./Mate/02_Geometria_Analitica/",
+                files: [
+                    "VR - Mat - Geom. analitica 01 - Segmenti e Rette.pdf",
+                    "VR - Mat - Geom. analitica 02 - Parabola.pdf"
+                ]
+            },
+            goniometria: {
+                title: "Goniometria e Trigonometria",
+                folder: "./Mate/03_Goniometria_e_Trigonometria/",
+                files: [
+                    "VR - Mat - Gonio 01 - Archi associati e Formule Goniometriche.pdf",
+                    "VR - Mat - Gonio 01 - Funzioni e formule goniometriche.pdf",
+                    "VR - Mat - Gonio 02 - Eq e Diseq goniometriche.pdf",
+                    "VR - Mat - Gonio 03 - Trigonometria.pdf"
+                ]
+            },
+            analisi: {
+                title: "Analisi Matematica",
+                folder: "./Mate/04_Analisi_Matematica/",
+                files: [
+                    "VR - Mat - Classi 5 - 2_Limiti.pdf",
+                    "VR - Mat - Classi 5 - 3_Continuità e Asintoti.pdf",
+                    "VR_Mat - Classi 5 - 4_Derivate.pdf",
+                    "VR_Mat - Classi 5 - 5_Calcolo differenziale.pdf",
+                    "VR_Mat - Classi 5 - 7_Integrali indefiniti.pdf"
+                ]
+            }
+        };
+
+        function openFolder(key) {
+            const data = fileData[key];
+            document.getElementById('modalTitle').innerText = data.title;
+            const fileListEl = document.getElementById('fileList');
+            fileListEl.innerHTML = '';
+            
+            closePdfViewer();
+
+            data.files.forEach(file => {
+                const fileUrl = data.folder + encodeURIComponent(file);
+                const li = document.createElement('li');
+                li.className = 'file-item';
+                li.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <span style="display: flex; align-items: center;">
+                            <span class="file-icon">📄</span> ${file}
+                        </span>
+                        <div>
+                            <button onclick="previewPdf('${fileUrl}')" style="background: rgba(56,189,248,0.15); color: var(--accent-blue); border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 600; margin-right: 8px;">Anteprima</button>
+                            <a href="${fileUrl}" target="_blank" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">Apri in scheda &nearr;</a>
+                        </div>
+                    </div>
+                `;
+                fileListEl.appendChild(li);
+            });
+
+            document.getElementById('fileModal').style.display = 'flex';
+        }
+
+        function previewPdf(url) {
+            document.getElementById('fileList').style.display = 'none';
+            document.getElementById('pdfFrame').src = url;
+            document.getElementById('pdfViewerContainer').style.display = 'block';
+        }
+
+        function closePdfViewer() {
+            document.getElementById('pdfFrame').src = '';
+            document.getElementById('pdfViewerContainer').style.display = 'none';
+            document.getElementById('fileList').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('fileModal').style.display = 'none';
+            closePdfViewer();
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('fileModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
