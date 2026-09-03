@@ -366,28 +366,33 @@ footer {
 .open-tab-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
     border-radius: 8px;
-    color: #38bdf8 !important; /* Colore azzurro forzato */
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #38bdf8 !important;
     background: rgba(56, 189, 248, 0.12);
     border: 1px solid rgba(56, 189, 248, 0.3);
     transition: all 0.2s ease;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .open-tab-btn svg {
-    width: 18px;
-    height: 18px;
-    stroke: #38bdf8 !important; /* Colore del tratto dell'icona */
+    width: 14px;
+    height: 14px;
+    stroke: #38bdf8 !important;
+    transition: stroke 0.2s ease;
 }
 
 .open-tab-btn:hover {
+    color: #0b0f19 !important;
     background: #38bdf8;
     border-color: #38bdf8;
+    transform: translateY(-1px);
 }
 
 .open-tab-btn:hover svg {
-    stroke: #0b0f19 !important; /* Diventa scuro al passaggio del mouse */
+    stroke: #0b0f19 !important;
 }
