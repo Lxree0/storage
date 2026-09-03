@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Web Storage</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <header>
@@ -16,61 +18,72 @@
 
     <main class="container">
 
-        <!-- Card 1: Algebra e Funzioni -->
         <div class="folder-card" onclick="openFolder('algebra')">
             <div class="icon-wrapper c-blue">
-                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
             </div>
             <h3>Algebra e Funzioni</h3>
             <p>4 File PDF disponibili</p>
             <div class="card-arrow">
-                Mostra contenuti 
-                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                Mostra contenuti
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
             </div>
         </div>
 
-        <!-- Card 2: Geometria Analitica -->
         <div class="folder-card" onclick="openFolder('geometria')">
             <div class="icon-wrapper c-green">
-                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
             </div>
             <h3>Geometria Analitica</h3>
             <p>2 File PDF disponibili</p>
             <div class="card-arrow">
-                Mostra contenuti 
-                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                Mostra contenuti
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
             </div>
         </div>
 
-        <!-- Card 3: Goniometria e Trigonometria -->
         <div class="folder-card" onclick="openFolder('goniometria')">
             <div class="icon-wrapper c-purple">
-                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
             </div>
             <h3>Goniometria e Trig.</h3>
             <p>4 File PDF disponibili</p>
             <div class="card-arrow">
-                Mostra contenuti 
-                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                Mostra contenuti
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
             </div>
         </div>
 
-        <!-- Card 4: Analisi Matematica -->
         <div class="folder-card" onclick="openFolder('analisi')">
             <div class="icon-wrapper c-orange">
-                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
             </div>
             <h3>Analisi Matematica</h3>
             <p>5 File PDF disponibili</p>
             <div class="card-arrow">
-                Mostra contenuti 
-                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                Mostra contenuti
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
             </div>
         </div>
 
     </main>
 
-    <!-- Modal per l'elenco file e Anteprima PDF -->
     <div id="fileModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -81,7 +94,8 @@
                 <ul id="fileList" class="file-list"></ul>
                 <div id="pdfViewerContainer" style="display: none; margin-top: 1rem;">
                     <button onclick="closePdfViewer()" class="back-btn">&larr; Torna alla lista file</button>
-                    <iframe id="pdfFrame" src="" width="100%" height="600px" style="border: 1px solid var(--card-border); border-radius: 12px;"></iframe>
+                    <iframe id="pdfFrame" src="" width="100%" height="600px"
+                        style="border: 1px solid var(--card-border); border-radius: 12px;"></iframe>
                 </div>
             </div>
         </div>
@@ -92,7 +106,6 @@
     </footer>
 
     <script>
-        // Mappatura automatica dei file
         const fileData = {
             algebra: {
                 title: "Algebra e Funzioni Base",
@@ -140,21 +153,25 @@
             document.getElementById('modalTitle').innerText = data.title;
             const fileListEl = document.getElementById('fileList');
             fileListEl.innerHTML = '';
-            
+
             closePdfViewer();
 
             data.files.forEach(file => {
                 const fileUrl = data.folder + encodeURIComponent(file);
                 const li = document.createElement('li');
                 li.className = 'file-item';
+
                 li.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <span style="display: flex; align-items: center;">
-                            <span class="file-icon">📄</span> ${file}
-                        </span>
-                        <div>
-                            <button onclick="previewPdf('${fileUrl}')" style="background: rgba(56,189,248,0.15); color: var(--accent-blue); border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 600; margin-right: 8px;">Anteprima</button>
-                            <a href="${fileUrl}" target="_blank" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">Apri in scheda &nearr;</a>
+                    <div class="file-row" onclick="previewPdf('${fileUrl}')">
+                        <div class="file-info">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">${file}</span>
+                        </div>
+                        <div class="file-actions">
+                            <span class="preview-badge">Visualizza</span>
+                            <a href="${fileUrl}" target="_blank" onclick="event.stopPropagation();" class="open-tab-btn" title="Apri in una nuova scheda">
+                                <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
                         </div>
                     </div>
                 `;
@@ -181,7 +198,7 @@
             closePdfViewer();
         }
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             const modal = document.getElementById('fileModal');
             if (event.target == modal) {
                 closeModal();
@@ -189,4 +206,5 @@
         }
     </script>
 </body>
+
 </html>

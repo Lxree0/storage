@@ -313,3 +313,81 @@ footer {
     border: 1px solid var(--card-border);
     border-radius: 12px;
 }
+
+/* Styling migliorato per la lista file */
+.file-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.file-row:hover {
+    background: rgba(56, 189, 248, 0.08);
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.file-name {
+    font-size: 0.95rem;
+}
+
+.file-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.preview-badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent-blue);
+    background: rgba(56, 189, 248, 0.12);
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.file-row:hover .preview-badge {
+    background: var(--accent-blue);
+    color: #0B0F19;
+}
+
+.open-tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s ease;
+}
+
+.open-tab-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.open-tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
