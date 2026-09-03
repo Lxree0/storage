@@ -342,11 +342,7 @@ footer {
     font-size: 0.95rem;
 }
 
-.file-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
+
 
 .preview-badge {
     font-size: 0.8rem;
@@ -363,27 +359,39 @@ footer {
     color: #0B0F19;
 }
 
+/* Contenitore dei pulsanti (garantisce lo spazio e l'allineamento) */
+.file-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Pulsante "Apri in scheda" ingrandito e sistemato */
 .open-tab-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.35rem 0.75rem;
-    border-radius: 8px;
-    font-size: 0.8rem;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;       /* Più padding per renderlo più grande */
+    font-size: 0.875rem;        /* Testo leggermente più grande */
     font-weight: 600;
     color: #38bdf8 !important;
     background: rgba(56, 189, 248, 0.12);
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: 8px;
     transition: all 0.2s ease;
     text-decoration: none;
-    white-space: nowrap;
+    white-space: nowrap;        /* Impedisce assolutamente al testo di andare a capo */
+    line-height: 1;
 }
 
 .open-tab-btn svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;                /* Icona proporzionata al nuovo testo */
+    height: 16px;
     stroke: #38bdf8 !important;
     transition: stroke 0.2s ease;
+    flex-shrink: 0;
 }
 
 .open-tab-btn:hover {
@@ -391,6 +399,7 @@ footer {
     background: #38bdf8;
     border-color: #38bdf8;
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
 }
 
 .open-tab-btn:hover svg {
