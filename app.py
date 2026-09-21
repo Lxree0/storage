@@ -1,10 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
+import requests
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-
-# Cartella base dove sono i file (ora di sola lettura su Vercel)
-app.config['UPLOAD_FOLDER'] = 'uploads'
 
 CATEGORIES = {
     'algebra': {'title': 'Algebra e Funzioni Base', 'folder': 'Mate/01_Algebra_e_Funzioni_Base', 'color': 'c-blue'},
@@ -14,37 +13,79 @@ CATEGORIES = {
     'informatica': {'title': 'Informatica', 'folder': 'Informatica/05_Informatica', 'color': 'c-red'}
 }
 
-# ABBIAMO RIMOSSO os.makedirs PER EVITARE IL CRASH SU VERCEL
+def get_blob_files():
+    """Recupera la lista di tutti i file presenti su Vercel Blob"""
+    token = os.environ.get('BLOB_READ_WRITE_TOKEN')
+    if not token:
+        return []
+    
+    headers = {"authorization": f"Bearer {token}"}
+    resp = requests.get("https://blob.vercel-storage.com", headers=headers)
+    if resp.status_code == 200:
+        return resp.json().get('blobs', [])
+    return []
 
 @app.route('/')
 def index():
+    blobs = get_blob_files()
     counts = {}
     for cat, data in CATEGORIES.items():
-        folder_path = os.path.join(app.config['UPLOAD_FOLDER'], data['folder'])
-        # Controllo se la cartella esiste prima di contare i file
-        if os.path.exists(folder_path):
-            counts[cat] = len([f for f in os.listdir(folder_path) if f.endswith('.pdf')])
-        else:
-            counts[cat] = 0
+        folder_path = data['folder']
+        # Conta quanti file nel Blob hanno questo percorso
+        count = sum(1 for b in blobs if b['pathname'].startswith(folder_path + '/'))
+        counts[cat] = count
     return render_template('index.html', counts=counts)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    # Poiché Vercel è in sola lettura, disabilitiamo temporaneamente il salvataggio dei file
-    # Mostriamo solo un avviso o reindirizziamo
     if request.method == 'POST':
-        return "L'upload è disabilitato su Vercel senza un database cloud.", 403
+        if 'file' not in request.files:
+            return redirect(request.url)
+        file = request.files['file']
+        category = request.form.get('category')
+        
+        if file.filename == '' or not category or category not in CATEGORIES:
+            return redirect(request.url)
+            
+        if file and file.filename.lower().endswith('.pdf'):
+            token = os.environ.get('BLOB_READ_WRITE_TOKEN')
+            if not token:
+                return "Errore: Blob non configurato in Vercel.", 500
+                
+            filename = secure_filename(file.filename)
+            blob_pathname = f"{CATEGORIES[category]['folder']}/{filename}"
+            
+            headers = {
+                "authorization": f"Bearer {token}",
+                "content-type": "application/pdf"
+            }
+            
+            # Effettua l'upload direttamente su Vercel Blob
+            resp = requests.put(
+                f"https://blob.vercel-storage.com/{blob_pathname}",
+                data=file.read(),
+                headers=headers
+            )
+            
+            if resp.status_code == 200:
+                return redirect(url_for('index'))
+            else:
+                return f"Errore API Blob: {resp.text}", 500
+                
     return render_template('upload.html', categories=CATEGORIES)
 
 @app.route('/api/files')
 def get_files():
+    blobs = get_blob_files()
     file_data = {}
+    
     for cat, data in CATEGORIES.items():
-        folder_path = os.path.join(app.config['UPLOAD_FOLDER'], data['folder'])
-        files = []
-        if os.path.exists(folder_path):
-            files = [f for f in os.listdir(folder_path) if f.endswith('.pdf')]
-            
+        folder_path = data['folder']
+        # Estrapola solo il nome del file dal percorso completo
+        files = [
+            b['pathname'].replace(folder_path + '/', '') 
+            for b in blobs if b['pathname'].startswith(folder_path + '/')
+        ]
         file_data[cat] = {
             'title': data['title'],
             'folder': f"/files/{cat}/",
@@ -52,15 +93,18 @@ def get_files():
         }
     return jsonify(file_data)
 
-@app.route('/files/<category>/<filename>')
+@app.route('/files/<category>/<path:filename>')
 def serve_file(category, filename):
+    # Cerca il file richiesto nel Blob e reindirizza l'utente all'URL pubblico sicuro
     if category in CATEGORIES:
-        folder_path = os.path.join(app.config['UPLOAD_FOLDER'], CATEGORIES[category]['folder'])
-        if os.path.exists(os.path.join(folder_path, filename)):
-            return send_from_directory(folder_path, filename)
+        expected_path = f"{CATEGORIES[category]['folder']}/{filename}"
+        blobs = get_blob_files()
+        for b in blobs:
+            if b['pathname'] == expected_path:
+                return redirect(b['url'])
+                
     return "File non trovato", 404
 
-# Aggiungi questa variabile per Vercel
 app_handler = app
 
 if __name__ == '__main__':
