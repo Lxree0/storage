@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Web Storage</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <span class="badge">Local Web Storage</span>
+        <h1>Archivio Matematica</h1>
+        <p>Seleziona una categoria per visualizzare e aprire le dispense direttamente online.</p>
+        <br>
+        <a href="/upload" class="back-btn">+ Aggiungi Appunti</a>
+    </header>
+
+    <main class="container">
+        <!-- Card 1 -->
+        <div class="folder-card" onclick="openFolder('algebra')">
+            <div class="icon-wrapper c-blue">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Algebra e Funzioni</h3>
+            <p>{{ counts['algebra'] }} File PDF disponibili</p>
+            <div class="card-arrow">Mostra contenuti <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="folder-card" onclick="openFolder('geometria')">
+            <div class="icon-wrapper c-green">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Geometria Analitica</h3>
+            <p>{{ counts['geometria'] }} File PDF disponibili</p>
+            <div class="card-arrow">Mostra contenuti <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="folder-card" onclick="openFolder('goniometria')">
+            <div class="icon-wrapper c-purple">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Goniometria e Trig.</h3>
+            <p>{{ counts['goniometria'] }} File PDF disponibili</p>
+            <div class="card-arrow">Mostra contenuti <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="folder-card" onclick="openFolder('analisi')">
+            <div class="icon-wrapper c-orange">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Analisi Matematica</h3>
+            <p>{{ counts['analisi'] }} File PDF disponibili</p>
+            <div class="card-arrow">Mostra contenuti <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="folder-card" onclick="openFolder('informatica')">
+            <div class="icon-wrapper c-red">
+                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>Informatica</h3>
+            <p>{{ counts['informatica'] }} File PDF disponibili</p>
+            <div class="card-arrow">Mostra contenuti <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+        </div>
+    </main>
+
+    <!-- Modal per elenco file e anteprima PDF -->
+    <div id="fileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Titolo Cartella</h2>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <ul id="fileList" class="file-list"></ul>
+                <div id="pdfViewerContainer" style="display: none; margin-top: 1rem;">
+                    <button onclick="closePdfViewer()" class="back-btn">&larr; Torna alla lista file</button>
+                    <iframe id="pdfFrame" src="" width="100%" height="600px" style="border: 1px solid var(--card-border); border-radius: 12px;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Self-Hosted Storage &bull; Nova Digital Dashboard</p>
+    </footer>
+
+    <script>
+        let fileData = {};
+
+        // Carica la lista dei file dinamicamente dal server
+        fetch('/api/files')
+            .then(response => response.json())
+            .then(data => {
+                fileData = data;
+            });
+
+        function openFolder(key) {
+            if (!fileData[key]) return;
+            const data = fileData[key];
+            document.getElementById('modalTitle').innerText = data.title;
+            const fileListEl = document.getElementById('fileList');
+            fileListEl.innerHTML = '';
+
+            closePdfViewer();
+
+            if (data.files.length === 0) {
+                fileListEl.innerHTML = '<p style="text-align:center; padding: 2rem; color: var(--text-secondary);">Nessun file presente in questa categoria.</p>';
+            }
+
+            data.files.forEach(file => {
+                const fileUrl = data.folder + encodeURIComponent(file);
+                const li = document.createElement('li');
+                li.className = 'file-item';
+                li.innerHTML = `
+                    <div class="file-row" onclick="previewPdf('${fileUrl}')">
+                        <div class="file-info">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">${file}</span>
+                        </div>
+                        <div class="file-actions">
+                            <span class="preview-badge">Visualizza</span>
+                            <a href="${fileUrl}" target="_blank" onclick="event.stopPropagation();" class="open-tab-btn" title="Apri in una nuova scheda">
+                                <span>Apri in scheda</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                fileListEl.appendChild(li);
+            });
+
+            document.getElementById('fileModal').style.display = 'flex';
+        }
+
+        function previewPdf(url) {
+            document.getElementById('fileList').style.display = 'none';
+            document.getElementById('pdfFrame').src = url;
+            document.getElementById('pdfViewerContainer').style.display = 'flex';
+        }
+
+        function closePdfViewer() {
+            document.getElementById('pdfFrame').src = '';
+            document.getElementById('pdfViewerContainer').style.display = 'none';
+            document.getElementById('fileList').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('fileModal').style.display = 'none';
+            closePdfViewer();
+        }
+
+        window.onclick = function (event) {
+            const modal = document.getElementById('fileModal');
+            if (event.target == modal) closeModal();
+        }
+    </script>
+</body>
+</html>
