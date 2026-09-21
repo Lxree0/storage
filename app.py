@@ -31,7 +31,6 @@ def index():
     counts = {}
     for cat, data in CATEGORIES.items():
         folder_path = data['folder']
-        # Conta quanti file nel Blob hanno questo percorso
         count = sum(1 for b in blobs if b['pathname'].startswith(folder_path + '/'))
         counts[cat] = count
     return render_template('index.html', counts=counts)
@@ -57,10 +56,10 @@ def upload():
             
             headers = {
                 "authorization": f"Bearer {token}",
-                "content-type": "application/pdf"
+                "x-add-random-suffix": "0"
             }
             
-            # Effettua l'upload direttamente su Vercel Blob
+            # Invio del file a Vercel Blob
             resp = requests.put(
                 f"https://blob.vercel-storage.com/{blob_pathname}",
                 data=file.read(),
@@ -81,7 +80,6 @@ def get_files():
     
     for cat, data in CATEGORIES.items():
         folder_path = data['folder']
-        # Estrapola solo il nome del file dal percorso completo
         files = [
             b['pathname'].replace(folder_path + '/', '') 
             for b in blobs if b['pathname'].startswith(folder_path + '/')
@@ -95,7 +93,6 @@ def get_files():
 
 @app.route('/files/<category>/<path:filename>')
 def serve_file(category, filename):
-    # Cerca il file richiesto nel Blob e reindirizza l'utente all'URL pubblico sicuro
     if category in CATEGORIES:
         expected_path = f"{CATEGORIES[category]['folder']}/{filename}"
         blobs = get_blob_files()
