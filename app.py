@@ -56,7 +56,8 @@ def upload():
             
             headers = {
                 "authorization": f"Bearer {token}",
-                "x-add-random-suffix": "0"
+                "x-add-random-suffix": "0",
+                "x-access": "private"
             }
             
             # Invio del file a Vercel Blob
